@@ -28,11 +28,13 @@ const Hero = () => {
   const floatingVariants = {
     animate: {
       y: [0, -18, 0],
+      visible:{
       transition: {
         duration: 4,
         repeat: Infinity,
         ease: "easeInOut"
       }
+    }
     }
   };
 
@@ -68,7 +70,7 @@ const Hero = () => {
               className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
             >
               Deliver the {''}
-              <div className="text-emerald-400 block"> Perfect Insight
+              <div className="text-emerald-400"> Perfect Insight
               </div>{' '}
               from every meeting
             </motion.h1>
@@ -107,7 +109,7 @@ const Hero = () => {
 
           {/* RIGHT — DARK DASHBOARD CARD */}
           <motion.div
-            variants={floatingVariants}
+            variants ={floatingVariants}
             animate="animate"
             className="relative z-10"
           >
