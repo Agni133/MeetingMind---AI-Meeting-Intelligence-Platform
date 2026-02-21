@@ -46,10 +46,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      // Simulate API call
+    
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Create mock user
       const mockUser: User = {
         id: '1',
         email,
@@ -68,30 +67,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Signup Function
-  const signup = async (email: string, password: string, name: string) => {
+  // Signup 
+  const signup = async(email: string, password: string, name: string) => {
     setLoading(true);
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Create mock user
-      const mockUser: User = {
-        id: Date.now().toString(),
+    try{
+     await new Promise(resolve=> setTimeout(resolve,1000));
+
+     const mockUser:User = {
+        id: '1',
         email,
-        password,
-        name,
-        plan: 'free',
+        name: email.split('@')[0],
+        plan: 'team',
         createdAt: new Date().toISOString()
-      };
-      
-      // Save user
-      setUser(mockUser);
-      localStorage.setItem('user', JSON.stringify(mockUser));
-    } catch (error) {
-      throw new Error('Signup failed');
-    } finally {
-      setLoading(false);
+
+     }
+    }catch(err){
+     throw new Error("Sign up failed ");
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -117,7 +110,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-// Custom Hook to use Auth Context
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
