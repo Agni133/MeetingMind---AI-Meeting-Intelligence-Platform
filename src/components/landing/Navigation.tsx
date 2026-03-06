@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
- import { useRef } from "react";
+ 
 import { Link } from "react-router-dom";
 
 import {motion} from "framer-motion";
@@ -9,7 +9,7 @@ import { useAuth } from "@/context/Authcontext";
 const Navigation = ()=>{
 const [scrolled,setIsScrolled]= useState(false);
 const {isAuthenticated} = useAuth();
-const sectionref = useRef<HTMLDivElement>(null);
+
 
 useEffect(()=>{
  const handleScroll = ()=>{
@@ -19,8 +19,9 @@ useEffect(()=>{
  return ()=> removeEventListener('Scroll',handleScroll)
 },[])
 
-const sectionScroll =()=>{  
-    sectionref.current?.scrollIntoView({behavior: "smooth"})
+const sectionScroll =(id: string)=>{  
+    const element = document.getElementById(id);
+    element?.scrollIntoView({behavior:'smooth'})
 }
 
   return (
@@ -46,7 +47,7 @@ const sectionScroll =()=>{
         <div className="w-15 h-15 bg-gradient-to-br from-emerald-500 to-slate-900 rounded-xl flex items-center justify-center">
           <span className="text-white font-bold text-xl">M</span>
         </div>
-        <span className={`text-2xl font-bold  bg-graident-r  from-emerald-500 to-slate-900 bg-clip-text text-transparent  ${!scrolled && 'text-white'}' `}>Meeting Mind</span>
+        <span className={`text-2xl font-bold  bg-graident-r  from-emerald-500 to-white bg-clip-text text-transparent  ${!scrolled && 'text-white'}' `}>Meeting Mind</span>
 
      </Link> 
        </motion.div>
