@@ -121,7 +121,7 @@ const Features: React.FC = () => {
               className="group relative"
             >
               {/* Card */}
-              <div className="relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden">
+              <div className="relative bg-slate-900 text-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden">
                 {/* Gradient Overlay on Hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
 
@@ -166,7 +166,7 @@ const Features: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="mt-20 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-12 text-white"
+          className="mt-20 bg-gradient-to-r from-slate-900/10 to-blue-900 rounded-3xl p-12 text-white"
         >
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
