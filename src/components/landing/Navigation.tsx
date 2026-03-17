@@ -59,15 +59,15 @@ const sectionScroll =(id: string)=>{
       transition={{delay:0.3}}
       className="hidden md:block"
        >
-        <div className="ml-10 flex items-center space-x-8">
-          <button onClick={()=>sectionScroll('features')} className={`${scrolled? 'text-gray-700': 'text-white'} hover:text-green-600 transition font-medium`}>
+        <div className="ml-10 flex items-center space-x-8 text-white">
+          <button onClick={()=>sectionScroll('features')} className={`${scrolled? 'text-gray-700': 'text-white'} hover:text-green-600 transition  font-medium`}>
             Features 
            </button>
               
-              <button onClick={()=>sectionScroll('pricing')} className={`${scrolled ? 'text-grey-700': 'text-white'}hover:text-green-600 font-medium transition`}>
+              <button onClick={()=>sectionScroll('pricing')} className={`${scrolled ? 'text-gray-700': 'text-white'}hover:text-green-600 font-medium transition`}>
               Pricing 
               </button>
-              <button onClick={()=>sectionScroll('testimontial')} className={`${scrolled ? 'text-gray-700':'text-white'}}`}>
+              <button onClick={()=>sectionScroll('testimontial')} className={`${scrolled ? 'text-gray-700':'text-white'}hover:text-green-600 font-medium transition` }>
                 Testimontial 
               </button>
               {isAuthenticated ? (
@@ -76,7 +76,7 @@ const sectionScroll =(id: string)=>{
                </Link>
                ):(
                 <>
-                 <Link to = "/login" className={`${scrolled ? "bg-gray-700": 'bg-white'} hover:text-green-600 font-medium transition`}>
+                 <Link to = "/login" className={`${scrolled ? "bg-gray-700": 'bg-slate-700'} hover:text-green-600 font-medium transition`}>
                   Sign in 
                  </Link>
                  <Link to = "/signup" className="bg-gradient-to-r from-green-600 to-slate-800 text-white px-6 py-3 rounded-full font-semibold hover:shadow-2xl hover:scale-105 transition-all duration-300">
