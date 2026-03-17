@@ -46,3 +46,7 @@ This project focuses on **clean UI design, modern dashboard layout, and user exp
 - Vite
 - Tailwind CSS
 - Framer Motion
+
+## Screenshot
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/14dc2e7d-926f-4ceb-8757-3cefd5c5e096" />
+
