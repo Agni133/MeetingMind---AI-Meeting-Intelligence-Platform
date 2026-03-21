@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 ## MeetingMind-AI Meeting-Intelligence platform  
 MeetingMind is a modern **AI-powered meeting intelligence platform UI** designed to help teams manage, analyze, and organize meetings efficiently.
 
@@ -22,7 +22,7 @@ This project focuses on **clean UI design, modern dashboard layout, and user exp
 - Vite
 - Tailwind CSS
 - Framer Motion
-=======
+
 ## MeetingMind-AI Meeting-Intelligence platform  
 MeetingMind is a modern **AI-powered meeting intelligence platform UI** designed to help teams manage, analyze, and organize meetings efficiently.
 
@@ -46,4 +46,7 @@ This project focuses on **clean UI design, modern dashboard layout, and user exp
 - Vite
 - Tailwind CSS
 - Framer Motion
->>>>>>> acc0a20b35ecf398668f73b497652e83f64d9c9e
+
+## Screenshot
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/14dc2e7d-926f-4ceb-8757-3cefd5c5e096" />
+
