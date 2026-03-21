@@ -64,10 +64,10 @@ const sectionScroll =(id: string)=>{
             Features 
            </button>
               
-              <button onClick={()=>sectionScroll('pricing')} className={`${scrolled ? 'text-gray-700': 'text-white'}hover:text-green-600 font-medium transition`}>
+              <button onClick={()=>sectionScroll('pricing')} className={`${scrolled ? 'text-gray-700': 'text-white'} hover:text-green-600 font-medium transition`}>
               Pricing 
               </button>
-              <button onClick={()=>sectionScroll('testimontial')} className={`${scrolled ? 'text-gray-700':'text-white'}hover:text-green-600 font-medium transition` }>
+              <button onClick={()=>sectionScroll('testimontial')} className={`${scrolled ? 'text-gray-700':'text-white'} hover:text-green-600 font-medium transition` }>
                 Testimontial 
               </button>
               {isAuthenticated ? (
