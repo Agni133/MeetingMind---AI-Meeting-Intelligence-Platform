@@ -90,7 +90,7 @@ const Features: React.FC = () => {
             className="inline-block px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold mb-4"
           >
              Powerful Features
-          </motion.span>
+          </motion.span> <br/> <br/>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
             Everything you need to{' '}
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
@@ -166,7 +166,7 @@ const Features: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="mt-20 bg-gradient-to-r from-slate-900/10 to-blue-900 rounded-3xl p-12 text-white"
+          className="mt-20 bg-gradient-to-r from-slate-900/10 to-slate-900 rounded-3xl p-12 text-white"
         >
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
