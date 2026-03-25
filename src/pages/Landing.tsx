@@ -1,13 +1,21 @@
+import Navigation from "@/components/landing/Navigation"
 import Hero from "../components/landing/Hero"
+ import Features from "@/components/landing/Features"
+import  Pricing from "@/components/landing/Pricing"
 
 
-export const Landing = ()=>{
+export const Landing :React.FC = ()=>{
 
     return (
-    <div className="min-h-screen"> 
+    <div className="min-h-screen overflow-x-hidden"> 
+    
+    <Navigation/>
+       
+     <Hero />                   
      
-     <Hero />
-
+     <Features />
+     
+  <Pricing />
 
     </div>
 
@@ -15,3 +23,5 @@ export const Landing = ()=>{
     )
 
 }
+
+export default Landing;
