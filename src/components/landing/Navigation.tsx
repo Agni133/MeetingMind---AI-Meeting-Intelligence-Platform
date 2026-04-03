@@ -68,7 +68,7 @@ const sectionScroll =(id: string)=>{
               Pricing 
               </button>
               <button onClick={()=>sectionScroll('testimontial')} className={`${scrolled ? 'text-gray-700':'text-white'} hover:text-green-600 font-medium transition` }>
-                Testimontial 
+                Testimonial 
               </button>
               {isAuthenticated ? (
                <Link to = "/dashboard" className="bg-gradient-to-r from-green-600 to-slate-800 text-white px-6 py-3 rounded-full font-semibold hover:shadow-2xl hover:scale-105 transition-all duration-300 ">   
