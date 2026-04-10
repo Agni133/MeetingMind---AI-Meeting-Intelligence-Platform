@@ -67,7 +67,7 @@ const sectionScroll =(id: string)=>{
               <button onClick={()=>sectionScroll('pricing')} className={`${scrolled ? 'text-gray-700': 'text-white'} hover:text-green-600 font-medium transition`}>
               Pricing 
               </button>
-              <button onClick={()=>sectionScroll('testimontial')} className={`${scrolled ? 'text-gray-700':'text-white'} hover:text-green-600 font-medium transition` }>
+              <button onClick={()=>sectionScroll('testimonial')} className={`${scrolled ? 'text-gray-700':'text-white'} hover:text-green-600 font-medium transition` }>
                 Testimonial 
               </button>
               {isAuthenticated ? (
