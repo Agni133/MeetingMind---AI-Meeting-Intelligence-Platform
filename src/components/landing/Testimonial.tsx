@@ -33,15 +33,16 @@ const Testimonial = ()=>{
        
          
   return (
-   <section ref={ref} id="testimonial" className="py-24 px-4 relative overflow-hidden" style={{background:"radial-gradient(circle,green,transparent)"}} >
-      {/* background effect left side   */}
-    <div className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-20 blur-3xl" style={{ background: "radial-gradient(circle,green, transparent)" }}>
+   <section ref={ref} id="testimonial" className="py-24 px-4 bg-gradient-to-r from-slate-950 to-green-400 relative overflow-hidden" >
+      {/* background effect top side   */}
+    <div className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-20 blur-3xl bg-gradient-to-t from-slate-950 to-green-400">
             
     </div>
-       {/* background effect right side   */}
-    <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-20 blur-3xl" style={{background:"radial-gradient(circle,green,transparent)"}}>
+       {/* background effect left side   */}
+    <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-20 blur-3xl bg-gradient-to-l from-slate-950 to-green-400">
       
     </div>
+      
         {/* wrapper div inside the motion div  */}
       <div className="max-w-6xl relative z-10 mx-auto">
         
@@ -51,9 +52,15 @@ const Testimonial = ()=>{
         transition={{duration:0.6}}
         className="text-center mb-16 mt-4 "
         >
-          <h1 className="font-bold text-slate-900 mb-3 text-6xl ">What People Say</h1>
-            <p className="text-center font-bold text-2xl "> Discover what our satisfied customers have to say </p>
-            <p className="text-center font-bold text-2xl "> about their experiences with our products/services</p>
+          <motion.h1   
+           initial={{x:30,opacity:0}}
+           animate={{opacity:1,y:0}}
+           transition={{duration:0.6}}
+          className="font-bold text-white mb-3 text-6xl ">
+          What People <span className="bg-gradient-to-r  from-purple-600 to-blue-600 bg-clip-text text-transparent">Say</span>
+          </motion.h1>
+            <p className=" text-green-100 text-center font-bold text-2xl "> Discover what our satisfied customers have to say </p>
+            <p className="  text-green-100/80 text-center font-bold text-2xl "> about their experiences with our products/services</p>
         </motion.div>
         
            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -69,34 +76,33 @@ const Testimonial = ()=>{
              className="h-full"
            > 
 
-            <div className={`rounded-3xl p-6 h-full flex flex-col gap-4 border transition-all duration-300
-                  ${index === 1
-                    ? "bg-green-500/15 border-green-700/30 shadow-lg shadow-green-500/10"
-                    : "bg-white/5 border-white/10"
+            <div className={`rounded-3xl p-6 h-full flex flex-col gap-4 border transition-all duration-300 bg-white 
+                  ${index < 3
+                    ? " hover:bg-green-500/15 border-white shadow-lg shadow-white"
+                    : "bg-white border-white"
                   }`}   style={{ backdropFilter: "blur(12px)" }}>
 
-               {/* starting imag of the clients with seperate divs  */}
+               {/* starting  of the clients with seperate divs  */}
               <div className="flex items-center gap-3 ">
                 
-                <img src={item.avatar} alt={item.name} className="h-15 w-15 rounded-full object-cover " style={{ outline: "2px solid rgba(74, 222, 128, 0.3)", outlineOffset:"3px"}}>
+                <img src={item.avatar} alt={item.name} className="h-15 w-15 rounded-full object-cover bg-white" style={{ outline: "2px solid", outlineOffset:"3px"}}>
                  
                 </img>
                  
                  <div>
-                  <h3 className="text-slate-800 font-semibold text-sm ">{item.name}</h3>
-                  <p className="text">{item.role}</p>
+                  <h3 className="text-white font-semibold text-sm ">{item.name}</h3>
+                  <p className="text-black text-xs">{item.role}</p>
                  </div>
 
               </div>
                 
-                    
               <div>
-                   <p className="text-slate-800 leading-relaxed text-xs font-stretch-condensed">{item.Quotes}</p>
+                   <p className="text-black leading-relaxed text-xs font-stretch-condensed">{item.Quotes}</p>
 
                   </div>
             </div>
 
-
+            
             </motion.div>
            
              ))}
@@ -116,7 +122,7 @@ const Testimonial = ()=>{
    </section>
 
   )
-
+    
 
 }
 
