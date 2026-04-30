@@ -40,7 +40,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 text-slate-100">
+    <section className="relative min-h-screen  py-32 flex items-center justify-center overflow-hidden bg-slate-950 text-slate-100">
 
       {/* Soft radial glow background */}
       <div className="absolute inset-0">
@@ -126,7 +126,7 @@ const Hero = () => {
                 {/* header */}
                 <div className="flex justify-between mb-6">
                   <div className="flex gap-3 items-center">
-                    <div className="w-8 h-8 bg-emerald-500 rounded-lg" />
+                    <div className="w-8 h-8 bg-green-500 rounded-lg" />
                     <div className="h-4 w-28 bg-slate-700 rounded" />
                   </div>
                   <div className="flex gap-2">
