@@ -12,6 +12,7 @@ return(
   <Router>
    <Routes> 
     <Route path = "/" element = {<Landing/>} />
+   
    </Routes>
   </Router>
 )
