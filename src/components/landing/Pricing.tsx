@@ -60,9 +60,9 @@ const Pricing: React.FC = () => {
   ];
  
   return (
-    <section ref={ref} id="pricing" className="py-24 px-4 bg-gradient-b from-green-600 to-slate-900 relative overflow-hidden">
+    <section ref={ref} id="pricing" className="py-24 px-4  relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-l from-green-400 to-slate-900"></div>
+      <div className="absolute inset-0 "></div>
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -79,7 +79,7 @@ const Pricing: React.FC = () => {
           >
              Pricing Plans
           </motion.span>
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 ">
             Choose your{' '}
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               perfect plan
@@ -91,7 +91,7 @@ const Pricing: React.FC = () => {
         </motion.div>
  
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto ">
           {pricingTiers.map((tier, index) => (
             <motion.div
               key={index}
@@ -185,7 +185,7 @@ const Pricing: React.FC = () => {
  
                 {/* Corner Decoration */}
                 {tier.popular && (
-                  <div className="absolute -bottom-2 -right-2 w-24 h-24 bg-gradient-to-br from-green-400 to-slate-00 opacity-20 rounded-full blur-2xl"></div>
+                  <div className="absolute -bottom-2 -right-2 w-24 h-24 bg-gradient-to-br from-green-400 to-slate-900 opacity-20 rounded-full blur-2xl"></div>
                 )}
               </div>
             </motion.div>
