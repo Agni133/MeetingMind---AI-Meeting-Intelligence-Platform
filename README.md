@@ -16,14 +16,22 @@ This project focuses on **clean UI design, modern dashboard layout, and user exp
 
 
 ## 🖥️ Tech Stack
-
+  Frontend 
 - React
 - TypeScript
 - Vite
 - Tailwind CSS
 - Framer Motion
-- Express js
+- Tanstack query 
+
+Backend 
 - Prisma Postgresql
+- express js
+- Typescript
+- Socket io
+- Webrtc
+- speed to text
+- LLM Processing 
   
 ## Screenshot
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/14dc2e7d-926f-4ceb-8757-3cefd5c5e096" />
