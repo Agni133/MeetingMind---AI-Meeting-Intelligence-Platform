@@ -1,8 +1,4 @@
-// FILE: src/components/landing/AnimatedFeatures.tsx
-
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
 const Features: React.FC = () => {
@@ -26,7 +22,7 @@ const Features: React.FC = () => {
       opacity: 1,
       transition: {
         duration: 0.6,
-        ease: [0.6, -0.05, 0.01, 0.99]
+        ease: [0.6, -0.05, 0.01, 0.99] as [number, number, number, number]
       }
     }
   };
@@ -176,7 +172,7 @@ const Features: React.FC = () => {
               </p>
             </div>
             <div className="space-y-4">
-              {[
+              {[ 
                 '🎯 95%+ transcription accuracy',
                 '⚡ Real-time processing',
                 '🔒 Enterprise-grade security',

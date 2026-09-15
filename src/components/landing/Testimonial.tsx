@@ -1,9 +1,5 @@
-import React from "react";
-
-import {motion,rgba,useInView} from "framer-motion"
-
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { div, section } from "framer-motion/client";
 
 
 const Testimonial = ()=>{
@@ -33,13 +29,13 @@ const Testimonial = ()=>{
        
          
   return (
-   <section ref={ref} id="testimonial" className="py-24 px-4 bg-gradient-to-r from-slate-950 to-green-400 relative overflow-hidden" >
+   <section ref={ref} id="testimonial" className="py-24 px-4  relative overflow-hidden" >
       {/* background effect top side   */}
-    <div className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-20 blur-3xl bg-gradient-to-t from-slate-950 to-green-400">
+    <div className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-20 blur-3xl ">
             
     </div>
        {/* background effect left side   */}
-    <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-20 blur-3xl bg-gradient-to-l from-slate-950 to-green-400">
+    <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-20 blur-3xl ">
       
     </div>
       

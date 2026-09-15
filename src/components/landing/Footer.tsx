@@ -47,7 +47,7 @@ function Footer() {
   };
 
   return (
-    <footer className="relative overflow-hidden border-t border-emerald-500/15 bg-gradient-to-br from-slate-950 to-green-900 text-slate-200">
+    <footer className="relative overflow-hidden border-t border-green-500/15  text-slate-200">
       
       {/* CTA Section */}
       <motion.div
