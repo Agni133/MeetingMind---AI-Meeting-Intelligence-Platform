@@ -1,6 +1,9 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SignIn as ClerkSignIn } from '@clerk/react';
+import { useAuth } from '../context/Authcontext';
+import SignInform from '../components/common/SignInform';
 
 // AI MeetingMind Bespoke Vector Logo
 export const AIMeetingMindLogo: React.FC<{ size?: 'sm' | 'md' | 'lg'; withText?: boolean }> = ({
@@ -106,6 +109,16 @@ export const AIMeetingMindLogo: React.FC<{ size?: 'sm' | 'md' | 'lg'; withText?:
 };
 
 export const SignIn: React.FC = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [authMode, setAuthMode] = useState<'clerk' | 'direct'>('clerk');
+  const [showClerkGuide, setShowClerkGuide] = useState(false);
+
+  const handleQuickDemo = async () => {
+    await login('alex@meetingmind.ai', 'demo123');
+    navigate('/dashboard');
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 relative overflow-hidden flex items-center justify-center p-4 sm:p-6 lg:p-10">
       {/* Dynamic Background Glows (Matching Landing Page Theme) */}
@@ -223,8 +236,34 @@ export const SignIn: React.FC = () => {
         </div>
 
         {/* RIGHT SECTION (Wireframe 2: Sign In Form) */}
-        <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-between bg-slate-900/60">
-          <div className="flex justify-end mb-4">
+        <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-between bg-slate-900/60 overflow-y-auto max-h-[90vh]">
+          <div className="flex items-center justify-between mb-4">
+            {/* Mode Switcher */}
+            <div className="inline-flex p-1 rounded-xl bg-slate-800/80 border border-slate-700/60 text-xs">
+              <button
+                type="button"
+                onClick={() => setAuthMode('clerk')}
+                className={`px-3 py-1 rounded-lg font-medium transition-all ${
+                  authMode === 'clerk'
+                    ? 'bg-emerald-500 text-slate-950 font-bold shadow'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Clerk Sign In
+              </button>
+              <button
+                type="button"
+                onClick={() => setAuthMode('direct')}
+                className={`px-3 py-1 rounded-lg font-medium transition-all ${
+                  authMode === 'direct'
+                    ? 'bg-emerald-500 text-slate-950 font-bold shadow'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Direct / Email
+              </button>
+            </div>
+
             <Link
               to="/"
               className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-emerald-400 transition-colors font-medium"
@@ -232,15 +271,72 @@ export const SignIn: React.FC = () => {
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              Back to home
+              Back
             </Link>
           </div>
 
-          <div className="my-auto flex justify-center py-4">
-            <ClerkSignIn routing="path" path="/SignIn" signUpUrl="/Signup" fallbackRedirectUrl="/" />
+          {/* Quick Notice: Phone Verification issue guidance & 1-click bypass */}
+          <div className="mb-4 p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-emerald-500/10 to-teal-500/10 border border-amber-500/30 text-xs text-slate-300 shadow-lg">
+            <div className="flex items-start gap-2.5">
+              <span className="text-base leading-none mt-0.5">🇮🇳</span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="font-semibold text-amber-300">India Number / Phone Verification Blocked?</p>
+                </div>
+                <p className="text-[11px] text-slate-300 mt-1 leading-relaxed">
+                  Clerk free tier restricts SMS verification for Indian (+91) numbers. You can bypass this in 1 click to view your dashboard now, or turn off Phone Number in Clerk Dashboard.
+                </p>
+
+                <div className="mt-2.5 flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleQuickDemo}
+                    className="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-emerald-500/25 cursor-pointer active:scale-95"
+                  >
+                    <span>⚡ 1-Click Instant Dashboard Access</span>
+                    <span>→</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowClerkGuide(!showClerkGuide)}
+                    className="px-2.5 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-300 font-medium text-xs border border-slate-700/80 transition-colors cursor-pointer"
+                  >
+                    {showClerkGuide ? 'Hide Clerk Instructions' : '⚙️ How to remove phone from Clerk'}
+                  </button>
+                </div>
+
+                <AnimatePresence>
+                  {showClerkGuide && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="mt-3 pt-3 border-t border-slate-700/60 text-[11px] space-y-1.5 text-slate-300"
+                    >
+                      <p className="font-semibold text-emerald-400">Steps to remove Phone verification permanently in Clerk:</p>
+                      <ol className="list-decimal list-inside space-y-1 text-slate-300">
+                        <li>Open <a href="https://dashboard.clerk.com" target="_blank" rel="noreferrer" className="text-emerald-400 underline font-medium">dashboard.clerk.com</a> and select your app.</li>
+                        <li>Go to <strong>Configure &rarr; User &amp; Authentication &rarr; Email, phone, username</strong>.</li>
+                        <li>Under <strong>Contact information</strong>, turn <strong>Phone number OFF</strong> (set to "Don't use").</li>
+                        <li>Ensure <strong>Email address</strong> is set to <strong>Required</strong> (with Password or Email code).</li>
+                        <li>Click <strong>Save changes</strong>. Done! Refresh this page to sign in without phone.</li>
+                      </ol>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
           </div>
 
-          <div className="mt-8 text-center text-[11px] text-slate-500">
+          <div className="my-auto flex justify-center py-2">
+            {authMode === 'clerk' ? (
+              <ClerkSignIn routing="path" path="/SignIn" signUpUrl="/Signup" fallbackRedirectUrl="/dashboard" />
+            ) : (
+              <SignInform redirectTo="/dashboard" />
+            )}
+          </div>
+
+          <div className="mt-6 text-center text-[11px] text-slate-500">
             By signing in, you agree to our{' '}
             <a href="#terms" className="text-slate-400 hover:underline">Terms</a> and{' '}
             <a href="#privacy" className="text-slate-400 hover:underline">Privacy Policy</a>.

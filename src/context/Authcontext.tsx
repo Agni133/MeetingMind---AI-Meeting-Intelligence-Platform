@@ -31,13 +31,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const { isLoaded, userId, signOut } = useClerkAuth();
   const { user: clerkUser } = useUser();
 
+  const [localUser, setLocalUser] = React.useState<User | null>(() => {
+    try {
+      const saved = localStorage.getItem('meetingmind_demo_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
   const convertClerkUserToAppUser = (clerkUser: any): User => {
     return {
       id: clerkUser?.id || '',
       email: clerkUser?.emailAddresses[0]?.emailAddress || '',
       name: `${clerkUser?.firstName || ''} ${
         clerkUser?.lastName || ''
-      }`.trim(),
+      }`.trim() || 'Alex Mercer',
       avatar: clerkUser?.imageUrl,
       plan: 'free',
       createdAt:
@@ -48,41 +57,74 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     };
   };
 
-  const user = clerkUser ? convertClerkUserToAppUser(clerkUser) : null;
+  const user = clerkUser ? convertClerkUserToAppUser(clerkUser) : localUser;
 
-  // Mock login - handled by Clerk
-  const login = async (_email: string, _password: string): Promise<void> => {
-    throw new Error('Use Clerk SignIn component instead');
+  // Direct / Demo login (allows bypassing phone verification immediately)
+  const login = async (email: string, _password?: string): Promise<void> => {
+    const demoUser: User = {
+      id: 'usr_demo_' + Date.now(),
+      email: email || 'alex@meetingmind.ai',
+      name: email.split('@')[0] ? email.split('@')[0].replace('.', ' ') : 'Alex Mercer',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80',
+      plan: 'free',
+      createdAt: new Date().toISOString(),
+      emailVerified: true,
+    };
+    setLocalUser(demoUser);
+    try {
+      localStorage.setItem('meetingmind_demo_user', JSON.stringify(demoUser));
+    } catch {
+      // ignore
+    }
   };
 
-  // Mock signup - handled by Clerk
+  // Direct / Demo signup
   const signup = async (
-    _email: string,
+    email: string,
     _password: string,
-    _name: string
+    name: string
   ): Promise<void> => {
-    throw new Error('Use Clerk SignUp component instead');
+    const newUser: User = {
+      id: 'usr_' + Date.now(),
+      email: email || 'user@meetingmind.ai',
+      name: name || 'Team Member',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80',
+      plan: 'free',
+      createdAt: new Date().toISOString(),
+      emailVerified: true,
+    };
+    setLocalUser(newUser);
+    try {
+      localStorage.setItem('meetingmind_demo_user', JSON.stringify(newUser));
+    } catch {
+      // ignore
+    }
   };
 
   // Logout Function
   const logout = async (): Promise<void> => {
     try {
-      await signOut();
+      setLocalUser(null);
+      localStorage.removeItem('meetingmind_demo_user');
+      if (userId) {
+        await signOut();
+      }
     } catch (err) {
       console.error('Logout error:', err);
-      throw err;
     }
   };
+
+  const isAuthenticated = (!!userId && isLoaded) || !!localUser;
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        isAuthenticated: !!userId && isLoaded,
+        isAuthenticated,
         login,
         signup,
         logout,
-        isLoading: !isLoaded,
+        isLoading: !isLoaded && !localUser,
         error: null,
       }}
     >

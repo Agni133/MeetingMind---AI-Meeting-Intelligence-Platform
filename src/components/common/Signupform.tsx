@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../context/Authcontext';
 
 export interface SignupformProps {
   onSuccess?: () => void;
@@ -9,6 +10,7 @@ export interface SignupformProps {
 
 export function Signupform({ onSuccess, redirectTo = '/dashboard' }: SignupformProps) {
   const navigate = useNavigate();
+  const { signup, login } = useAuth();
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -78,8 +80,7 @@ export function Signupform({ onSuccess, redirectTo = '/dashboard' }: SignupformP
     setLoading(true);
 
     try {
-      // Simulate account registration
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      await signup(formData.email, formData.password, `${formData.firstName} ${formData.lastName}`.trim());
 
       setSuccess('Account created successfully! Welcome to MeetingMind.');
       if (onSuccess) {
@@ -87,7 +88,7 @@ export function Signupform({ onSuccess, redirectTo = '/dashboard' }: SignupformP
       }
       setTimeout(() => {
         navigate(redirectTo);
-      }, 900);
+      }, 600);
     } catch (err: any) {
       setError(err?.message || 'Failed to create account. Please try again.');
     } finally {
@@ -99,11 +100,11 @@ export function Signupform({ onSuccess, redirectTo = '/dashboard' }: SignupformP
     setError(null);
     setGoogleLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      await login('google.user@meetingmind.ai');
       setSuccess('Google account connected! Welcome to MeetingMind.');
       setTimeout(() => {
         navigate(redirectTo);
-      }, 900);
+      }, 600);
     } catch (err: any) {
       setError('Google sign-up failed. Please try again.');
     } finally {

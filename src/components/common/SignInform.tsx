@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../context/Authcontext';
 
 export interface SignInformProps {
   onSuccess?: () => void;
@@ -9,6 +10,7 @@ export interface SignInformProps {
 
 export function SignInform({ onSuccess, redirectTo = '/dashboard' }: SignInformProps) {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,8 +42,7 @@ export function SignInform({ onSuccess, redirectTo = '/dashboard' }: SignInformP
     setLoading(true);
 
     try {
-      // Simulate authentication request
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await login(email, password);
 
       setSuccess('Sign in successful! Redirecting...');
       if (onSuccess) {
@@ -49,7 +50,7 @@ export function SignInform({ onSuccess, redirectTo = '/dashboard' }: SignInformP
       }
       setTimeout(() => {
         navigate(redirectTo);
-      }, 800);
+      }, 500);
     } catch (err: any) {
       setError(err?.message || 'Invalid email or password. Please try again.');
     } finally {
@@ -61,11 +62,11 @@ export function SignInform({ onSuccess, redirectTo = '/dashboard' }: SignInformP
     setError(null);
     setGoogleLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      await login('google.user@meetingmind.ai');
       setSuccess('Connected with Google! Redirecting...');
       setTimeout(() => {
         navigate(redirectTo);
-      }, 800);
+      }, 500);
     } catch (err: any) {
       setError('Google sign-in failed. Please try again.');
     } finally {
