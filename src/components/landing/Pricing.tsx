@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
- 
+
 const Pricing: React.FC = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
- 
+
   const pricingTiers = [
     {
       name: 'Starter',
@@ -58,12 +58,12 @@ const Pricing: React.FC = () => {
       popular: false
     }
   ];
- 
+
   return (
     <section ref={ref} id="pricing" className="py-24 px-4  relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 "></div>
-      
+
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <motion.div
@@ -77,7 +77,7 @@ const Pricing: React.FC = () => {
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             className="inline-block px-4 py-2 bg-purple-100 text-green-600 rounded-full text-sm font-semibold mb-4"
           >
-             Pricing Plans
+            Pricing Plans
           </motion.span>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 ">
             Choose your{' '}
@@ -89,7 +89,7 @@ const Pricing: React.FC = () => {
             Flexible pricing that grows with your team
           </p>
         </motion.div>
- 
+
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto ">
           {pricingTiers.map((tier, index) => (
@@ -114,12 +114,12 @@ const Pricing: React.FC = () => {
                   </div>
                 </motion.div>
               )}
- 
+
               {/* Card */}
               <div className={`
                 relative bg-white rounded-3xl p-8 h-full
-                ${tier.popular 
-                  ? 'shadow-2xl border-2 border-purple-200 ring-4 ring-purple-100' 
+                ${tier.popular
+                  ? 'shadow-2xl border-2 border-purple-200 ring-4 ring-purple-100'
                   : 'shadow-xl border border-gray-200 hover:border-purple-200'
                 }
                 transition-all duration-300
@@ -128,12 +128,12 @@ const Pricing: React.FC = () => {
                 {tier.popular && (
                   <div className={`absolute inset-0 bg-gradient-to-br ${tier.gradient} opacity-5 rounded-3xl`}></div>
                 )}
- 
+
                 <div className="relative z-10">
                   {/* Plan Name */}
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">{tier.name}</h3>
                   <p className="text-gray-600 mb-6">{tier.description}</p>
- 
+
                   {/* Price */}
                   <div className="mb-6">
                     <div className="flex items-baseline">
@@ -148,7 +148,7 @@ const Pricing: React.FC = () => {
                       <span className="text-gray-500 text-sm">{tier.period}</span>
                     )}
                   </div>
- 
+
                   {/* Features */}
                   <ul className="space-y-4 mb-8">
                     {tier.features.map((feature, i) => (
@@ -166,7 +166,7 @@ const Pricing: React.FC = () => {
                       </motion.li>
                     ))}
                   </ul>
- 
+
                   {/* CTA Button */}
                   <Link
                     to="/signup"
@@ -182,7 +182,7 @@ const Pricing: React.FC = () => {
                     {tier.price === 'Custom' ? 'Contact Sales' : 'Get Started'}
                   </Link>
                 </div>
- 
+
                 {/* Corner Decoration */}
                 {tier.popular && (
                   <div className="absolute -bottom-2 -right-2 w-24 h-24 bg-gradient-to-br from-green-400 to-slate-900 opacity-20 rounded-full blur-2xl"></div>
@@ -191,7 +191,7 @@ const Pricing: React.FC = () => {
             </motion.div>
           ))}
         </div>
- 
+
         {/* Money Back Guarantee */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -203,12 +203,12 @@ const Pricing: React.FC = () => {
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
-            <span className="font-semibold">30-day money-back guarantee • No credit card required</span>
+            <span className="font-semibold">30-day money-back guarantee •</span>
           </div>
         </motion.div>
       </div>
     </section>
   );
 };
- 
+
 export default Pricing
