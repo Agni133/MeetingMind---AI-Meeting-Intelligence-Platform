@@ -8,7 +8,7 @@ interface HeaderProps {
   sidebarCollapsed: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSidebarToggle, sidebarCollapsed }) => {
+const Header: React.FC<HeaderProps> = ({ onSidebarToggle, sidebarCollapsed: _sidebarCollapsed }) => {
   const { user } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');

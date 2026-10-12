@@ -15,8 +15,8 @@ export interface User {
 export interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, name: string) => Promise<void>;
+  login: (email: string, password?: string) => Promise<void>;
+  signup: (email: string, password?: string, name?: string) => Promise<void>;
   logout: () => Promise<void>;
   isLoading: boolean;
   error: string | null;
@@ -34,9 +34,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [localUser, setLocalUser] = React.useState<User | null>(() => {
     try {
       const saved = localStorage.getItem('meetingmind_demo_user');
-      return saved ? JSON.parse(saved) : null;
+      return saved ? JSON.parse(saved) : {
+        id: 'usr_agnivesh',
+        email: 'agnivesh@meetingmind.ai',
+        name: 'Agnivesh Sharma',
+        plan: 'free',
+        createdAt: new Date().toISOString(),
+        emailVerified: true,
+      };
     } catch {
-      return null;
+      return {
+        id: 'usr_agnivesh',
+        email: 'agnivesh@meetingmind.ai',
+        name: 'Agnivesh Sharma',
+        plan: 'free',
+        createdAt: new Date().toISOString(),
+        emailVerified: true,
+      };
     }
   });
 
@@ -81,8 +95,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   // Direct / Demo signup
   const signup = async (
     email: string,
-    _password: string,
-    name: string
+    _password?: string,
+    name?: string
   ): Promise<void> => {
     const newUser: User = {
       id: 'usr_' + Date.now(),
