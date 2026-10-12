@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { UserButton } from '@clerk/react';
 import { useAuth } from '../../context/Authcontext';
-
+// interface 
 interface HeaderProps {
   onSidebarToggle: () => void;
   sidebarCollapsed: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSidebarToggle, sidebarCollapsed: _sidebarCollapsed }) => {
+const Header: React.FC<HeaderProps> = ({ onSidebarToggle, sidebarCollapsed }) => {
   const { user } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
