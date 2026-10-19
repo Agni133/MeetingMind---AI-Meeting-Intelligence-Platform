@@ -30,7 +30,7 @@ Backend
 - Typescript
 - Socket io
 - Webrtc
-- speed to text
+- speed to text (Open AI Whisper) 
 - LLM Processing 
   
 ## Screenshot
