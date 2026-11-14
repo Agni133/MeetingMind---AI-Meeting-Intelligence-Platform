@@ -1,0 +1,183 @@
+// MeetingMind — Prisma Schema for PostgreSQL
+// Run: npx prisma migrate dev --name init
+// Run: npx prisma generate
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────
+// Users (Synced from Clerk via webhook / on first login)
+// ─────────────────────────────────────────────
+model User {
+  id             String   @id                        // Clerk user ID (e.g. "user_2x...")
+  email          String   @unique
+  name           String   @default("Unknown")
+  avatarUrl      String?  @map("avatar_url")
+  plan           Plan     @default(FREE)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt     @map("updated_at")
+
+  // Relations
+  meetings       Meeting[]
+  actionItems    ActionItem[]
+
+  @@map("users")
+}
+
+enum Plan {
+  FREE
+  TEAM
+  ENTERPRISE
+}
+
+// ─────────────────────────────────────────────
+// Meetings — Core entity for every recorded or live session
+// ─────────────────────────────────────────────
+model Meeting {
+  id              String        @id @default(uuid())
+  title           String
+  platform        Platform      @default(UPLOAD)
+  status          MeetingStatus @default(PROCESSING)
+  durationSeconds Int           @default(0) @map("duration_seconds")
+  audioUrl        String?       @map("audio_url")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt     @map("updated_at")
+
+  // Foreign key to User
+  userId          String        @map("user_id")
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relations
+  transcriptSegments TranscriptSegment[]
+  insight            MeetingInsight?
+  actionItems        ActionItem[]
+  participants       MeetingParticipant[]
+
+  @@index([userId, createdAt], name: "idx_meetings_user_date")
+  @@map("meetings")
+}
+
+enum Platform {
+  ZOOM
+  GMEET
+  TEAMS
+  UPLOAD
+}
+
+enum MeetingStatus {
+  UPLOADING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// ─────────────────────────────────────────────
+// Transcript Segments — Timestamped, speaker-tagged lines
+// Each row = one speaker's utterance with start/end timestamps
+// ─────────────────────────────────────────────
+model TranscriptSegment {
+  id           String  @id @default(uuid())
+  speakerLabel String  @map("speaker_label")    // "Agnivesh", "Speaker 1"
+  startTime    Float   @map("start_time")       // seconds from meeting start
+  endTime      Float   @map("end_time")
+  content      String
+  confidence   Float?  @default(1.0)            // STT confidence score (0.0 – 1.0)
+
+  // Foreign key to Meeting
+  meetingId    String  @map("meeting_id")
+  meeting      Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  @@index([meetingId, startTime], name: "idx_transcript_meeting_time")
+  @@map("transcript_segments")
+}
+
+// ─────────────────────────────────────────────
+// Meeting Insights — AI-generated summary, decisions & questions
+// One-to-one with Meeting
+// ─────────────────────────────────────────────
+model MeetingInsight {
+  meetingId           String   @id @map("meeting_id")
+  meeting             Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  summaryMarkdown     String   @map("summary_markdown")       // Executive summary in markdown
+  keyDecisions        Json     @default("[]") @map("key_decisions")        // [{ decision, timestamp, speaker }]
+  unresolvedQuestions Json     @default("[]") @map("unresolved_questions") // [{ question, timestamp, speaker }]
+  sentimentScore      Float?   @map("sentiment_score")        // Overall meeting sentiment (0.0 – 1.0)
+  topicsDiscussed     Json     @default("[]") @map("topics_discussed")     // ["roadmap", "hiring", "budget"]
+
+  generatedAt         DateTime @default(now()) @map("generated_at")
+
+  @@map("meeting_insights")
+}
+
+// ─────────────────────────────────────────────
+// Action Items — Tasks extracted by AI or manually created
+// Linked to both a meeting and an assigned user
+// ─────────────────────────────────────────────
+model ActionItem {
+  id           String         @id @default(uuid())
+  task         String
+  assigneeName String?        @map("assignee_name")     // Display name (may not be a registered user)
+  dueDate      DateTime?      @map("due_date")
+  priority     Priority       @default(MEDIUM)
+  status       ActionStatus   @default(PENDING)
+  timestamp    Float?                                    // Meeting second where this was discussed
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt     @map("updated_at")
+
+  // Foreign key to Meeting
+  meetingId    String         @map("meeting_id")
+  meeting      Meeting        @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  // Foreign key to User (the assignee, if they have an account)
+  userId       String?        @map("user_id")
+  user         User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, status], name: "idx_action_items_user_status")
+  @@index([meetingId], name: "idx_action_items_meeting")
+  @@map("action_items")
+}
+
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum ActionStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+// ─────────────────────────────────────────────
+// Meeting Participants — Who was in the meeting
+// Enables auth checks for live transcript access
+// ─────────────────────────────────────────────
+model MeetingParticipant {
+  id        String   @id @default(uuid())
+  name      String                           // Display name
+  email     String?                          // Optional (external guests)
+  role      ParticipantRole @default(ATTENDEE)
+  joinedAt  DateTime @default(now()) @map("joined_at")
+  leftAt    DateTime?                @map("left_at")
+
+  // Foreign key to Meeting
+  meetingId String   @map("meeting_id")
+  meeting   Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  @@unique([meetingId, email], name: "unique_participant_per_meeting")
+  @@map("meeting_participants")
+}
+
+enum ParticipantRole {
+  HOST
+  ATTENDEE
+  AI_BOT
+}
+
